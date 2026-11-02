@@ -19,7 +19,7 @@ export const owner = {
   role: 'Owner & Founder',
   tagline: 'Born and raised in Omaha',
   bio: [
-    'ARS Home Improvements is owned and run by Allan Swarbick, a twenty-something entrepreneur and contractor who was born and raised right here in Omaha.',
+    "ARS Home Improvements is owned and run by Allan Swarbick, a driven, hands-on contractor and entrepreneur who was born and raised right here in Omaha. He brings fresh energy and a sharp eye for detail to every job, and he's building his business one satisfied neighbor at a time.",
     "Allan built ARS on a simple idea: show up when you say you will, keep homeowners in the loop, and do work you'd be proud to have in your own home. Every project in the gallery is a home in the community he grew up in.",
   ],
 }
