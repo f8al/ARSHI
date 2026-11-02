@@ -101,7 +101,7 @@ function onClick(e) {
   background: #1a1513;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+  touch-action: pan-y; /* vertical scroll stays native; sideways swipes change rooms */
   isolation: isolate;
   container-type: inline-size;
 }

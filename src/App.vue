@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import BeforeAfter from './components/BeforeAfter.vue'
+import ProjectCard from './components/ProjectCard.vue'
 import Icon from './components/Icon.vue'
 import { business, services, reasons } from './content.js'
 import { projects } from './gallery.js'
@@ -110,14 +110,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
         </header>
 
         <div v-if="projects.length" class="gallery">
-          <figure v-for="(p, i) in projects" :key="p.id" class="project">
-            <BeforeAfter :before="p.before" :after="p.after" :title="p.title" :aspect="p.aspect" :eager="i < 2" />
-            <figcaption>
-              <h3>{{ p.title }}</h3>
-              <p v-if="p.location" class="project__loc">{{ p.location }}</p>
-              <p v-if="p.description">{{ p.description }}</p>
-            </figcaption>
-          </figure>
+          <ProjectCard v-for="(p, i) in projects" :key="p.id" :project="p" :eager="i < 2" />
         </div>
         <p v-else class="empty">Project photos coming soon. Call us to see examples of our work!</p>
       </div>

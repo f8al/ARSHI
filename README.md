@@ -13,7 +13,9 @@ npm run preview   # serve the production build locally
 
 ## Adding before/after photos
 
-Each folder inside `src/gallery/` becomes one gallery card:
+Each folder inside `src/gallery/` becomes one gallery card.
+
+### Single-room project
 
 ```
 src/gallery/
@@ -21,19 +23,41 @@ src/gallery/
     before.jpg
     after.jpg
     info.json      (optional)
-  02-basement-finish/
-    before.jpg
-    after.png
 ```
+
+### Multi-room project
+
+Give each room its own subfolder. The card gets room chips ("Kitchen · Dining Room · Half Bath"),
+a "1 / 3" counter, and swipe left/right on phones. Each room still uses the before/after wipe.
+
+```
+src/gallery/
+  02-main-floor-remodel/
+    info.json            (optional, project title/location/description)
+    01-kitchen/
+      before.jpg
+      after.jpg
+      info.json          (optional) { "title": "Kitchen", "note": "Quartz counters, new cabinets" }
+    02-dining-room/
+      before.jpg
+      after.jpg
+    03-half-bath/
+      before.jpg
+      after.jpg
+```
+
+Only the first room's photos load with the page. Each other room loads when someone opens it.
+
+### Rules
 
 - `before` and `after` can be `.jpg`, `.jpeg`, `.png`, `.webp`, or `.avif`.
 - Full-size phone photos are fine. At build time they're resized (480–1600px) and converted to WebP.
-- Cards are sorted by folder name, so use number prefixes to set the order.
-- With no `info.json`, the title comes from the folder name (`01-kitchen-remodel` → "Kitchen Remodel").
-- Folders starting with `_` are ignored (see `_sample-project` for an example).
+- Projects and rooms are sorted by folder name, so use number prefixes to set the order.
+- Names come from folder names (`03-half-bath` → "Half Bath") unless `info.json` sets a `title`.
+- Anything starting with `_` is never published, whether it's a project or a single room. See `_sample-project` and `_sample-multi-room` for examples.
 - Each card takes the shape of its before photo (portrait or landscape). Shoot before and after from the same spot and orientation.
 
-Optional `info.json`:
+Project `info.json`:
 
 ```json
 {
@@ -44,6 +68,8 @@ Optional `info.json`:
 ```
 
 Commit and push. GitHub Actions rebuilds and redeploys the site automatically.
+You can also upload photos from GitHub's website. Open `src/gallery/`, choose **Add file → Upload files**,
+and drag in a whole project folder from your computer. Its subfolders come along too.
 
 ## Editing text
 
