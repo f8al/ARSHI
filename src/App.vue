@@ -2,10 +2,18 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import ProjectCard from './components/ProjectCard.vue'
 import Icon from './components/Icon.vue'
-import { business, services, reasons } from './content.js'
+import { business, services, reasons, owner } from './content.js'
 import { projects } from './gallery.js'
 import logo from './assets/logo.webp'
 import logoMark from './assets/logo-mark.webp'
+
+// Optional owner photo: drop src/assets/owner.jpg (or .png/.webp) in to use it.
+const ownerPhotos = import.meta.glob('./assets/owner.{jpg,jpeg,png,webp,JPG,JPEG,PNG}', {
+  eager: true,
+  import: 'default',
+  query: { w: '320;640', format: 'webp', as: 'srcset' },
+})
+const ownerPhoto = Object.values(ownerPhotos)[0]
 
 const menuOpen = ref(false)
 const scrolled = ref(false)
@@ -14,7 +22,7 @@ const year = new Date().getFullYear()
 const nav = [
   { href: '#services', label: 'Services' },
   { href: '#work', label: 'Our Work' },
-  { href: '#about', label: 'Why ARS' },
+  { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
 ]
 
@@ -116,9 +124,30 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
       </div>
     </section>
 
-    <!-- WHY US -->
+    <!-- ABOUT -->
     <section id="about" class="section">
       <div class="wrap">
+        <article class="owner">
+          <div class="owner__media">
+            <img
+              v-if="ownerPhoto"
+              :srcset="ownerPhoto"
+              sizes="(min-width: 760px) 260px, 128px"
+              :alt="owner.name"
+              loading="lazy"
+              decoding="async"
+            />
+            <span v-else class="owner__monogram" aria-hidden="true">{{ owner.initials }}</span>
+          </div>
+          <div class="owner__body">
+            <p class="eyebrow">Meet the owner</p>
+            <h2>{{ owner.name }}</h2>
+            <p class="owner__role">{{ owner.role }} · {{ owner.tagline }}</p>
+            <p v-for="(para, i) in owner.bio" :key="i">{{ para }}</p>
+            <a :href="business.phoneHref" class="btn btn--ghost"><Icon name="phone" /> Talk to Allan</a>
+          </div>
+        </article>
+
         <header class="section__head">
           <p class="eyebrow">Why ARS</p>
           <h2>Work you can count on</h2>

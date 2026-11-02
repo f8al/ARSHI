@@ -102,7 +102,10 @@ and drag in a whole project folder from your computer. Its subfolders come along
 
 ## Editing text
 
-Services, "Why ARS" points, phone, and email are in `src/content.js`.
+Services, "Why ARS" points, the owner bio, phone, and email are in `src/content.js`.
+
+**Owner photo:** add `src/assets/owner.jpg` (or `.png` / `.webp`) and it replaces the "AS" monogram
+automatically. A square-ish head-and-shoulders shot works best. It's shown in a circle.
 SEO meta tags and structured data are in `index.html`.
 
 ## GitHub Pages setup (one time)

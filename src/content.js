@@ -11,6 +11,19 @@ export const business = {
   email: 'arshomeimprovements1@gmail.com',
 }
 
+// Owner bio for the About section. To show a photo, add src/assets/owner.jpg
+// (or .png/.webp). Without one, a monogram of the initials is shown.
+export const owner = {
+  name: 'Allan Swarbick',
+  initials: 'AS',
+  role: 'Owner & Founder',
+  tagline: 'Born and raised in Omaha',
+  bio: [
+    'ARS Home Improvements is owned and run by Allan Swarbick, a twenty-something entrepreneur and contractor who was born and raised right here in Omaha.',
+    "Allan built ARS on a simple idea: show up when you say you will, keep homeowners in the loop, and do work you'd be proud to have in your own home. Every project in the gallery is a home in the community he grew up in.",
+  ],
+}
+
 export const services = [
   { icon: 'kitchen', title: 'Kitchens & Baths', text: 'Updates and full remodels: cabinets, counters, tile, fixtures and lighting.' },
   { icon: 'floor', title: 'Flooring', text: 'LVP, laminate, tile and hardwood installed level and clean.' },
