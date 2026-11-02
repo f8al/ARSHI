@@ -111,7 +111,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 
         <div v-if="projects.length" class="gallery">
           <figure v-for="(p, i) in projects" :key="p.id" class="project">
-            <BeforeAfter :before="p.before" :after="p.after" :title="p.title" :eager="i < 2" />
+            <BeforeAfter :before="p.before" :after="p.after" :title="p.title" :aspect="p.aspect" :eager="i < 2" />
             <figcaption>
               <h3>{{ p.title }}</h3>
               <p v-if="p.location" class="project__loc">{{ p.location }}</p>

@@ -31,7 +31,7 @@ src/gallery/
 - Cards are sorted by folder name, so use number prefixes to set the order.
 - With no `info.json`, the title comes from the folder name (`01-kitchen-remodel` → "Kitchen Remodel").
 - Folders starting with `_` are ignored (see `_sample-project` for an example).
-- Photos display at a 4:3 crop, so shoot before and after from the same spot.
+- Each card takes the shape of its before photo (portrait or landscape). Shoot before and after from the same spot and orientation.
 
 Optional `info.json`:
 

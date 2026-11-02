@@ -6,7 +6,11 @@ const props = defineProps({
   after: { type: Object, required: true },
   title: { type: String, default: '' },
   eager: { type: Boolean, default: false },
+  aspect: { type: Number, default: 4 / 3 }, // width / height
 })
+
+// Keep extreme panoramas or tall shots within a sensible range.
+const ratio = Math.min(Math.max(props.aspect || 4 / 3, 3 / 4), 16 / 9)
 
 const SIZES = '(min-width: 1100px) 520px, (min-width: 700px) 46vw, 94vw'
 
@@ -41,6 +45,7 @@ function onClick(e) {
     type="button"
     class="ba"
     :class="{ 'is-revealed': revealed }"
+    :style="{ aspectRatio: ratio }"
     :aria-pressed="revealed"
     :aria-label="`${title}: show ${revealed ? 'before' : 'after'} photo`"
     @pointerdown="onPointerDown"
