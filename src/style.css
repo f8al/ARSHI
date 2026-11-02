@@ -79,6 +79,9 @@ figure { margin: 0; }
 .btn--sm { min-height: 40px; padding: 0.45rem 1rem; font-size: 0.9rem; }
 :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
 
+/* Stop the page scrolling behind the photo viewer */
+html:has(dialog[open]) { overflow: hidden; }
+
 /* Header */
 .top {
   position: sticky; top: 0; z-index: 50;

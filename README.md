@@ -48,13 +48,42 @@ src/gallery/
 
 Only the first room's photos load with the page. Each other room loads when someone opens it.
 
+### Extra photos
+
+For photos that don't have a matching before/after shot (finished details, progress shots, other angles),
+put them in an `extra` folder inside the project. They show as a "More photos" thumbnail strip under the card.
+Tapping one opens a full-screen viewer with swipe/arrow navigation.
+
+```
+src/gallery/
+  whole-home-reno/
+    Bedroom/ ...
+    Living-Room/ ...
+    extra/
+      01-stairs.jpg
+      02-hallway.jpg
+```
+
+- A project can have **only** an `extra` folder (no before/after). Its first photo becomes the card cover.
+- Photos are ordered by file name. Rename to `01-…`, `02-…` to control the order.
+- Optional captions go in the project's `info.json`, keyed by file name:
+
+```json
+{
+  "title": "Whole Home Renovation",
+  "captions": {
+    "01-stairs.jpg": "New stair carpet and LVP landing"
+  }
+}
+```
+
 ### Rules
 
 - `before` and `after` can be `.jpg`, `.jpeg`, `.png`, `.webp`, or `.avif`.
 - Full-size phone photos are fine. At build time they're resized (480–1600px) and converted to WebP.
 - Projects and rooms are sorted by folder name, so use number prefixes to set the order.
 - Names come from folder names (`03-half-bath` → "Half Bath") unless `info.json` sets a `title`.
-- Anything starting with `_` is never published, whether it's a project or a single room. See `_sample-project` and `_sample-multi-room` for examples.
+- Anything starting with `_` is never published, whether it's a project, a single room, or a single extra photo. See `_sample-project` and `_sample-multi-room` for examples.
 - Each card takes the shape of its before photo (portrait or landscape). Shoot before and after from the same spot and orientation.
 
 Project `info.json`:

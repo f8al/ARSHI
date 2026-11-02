@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import BeforeAfter from './BeforeAfter.vue'
+import Lightbox from './Lightbox.vue'
 
 const props = defineProps({
   project: { type: Object, required: true },
@@ -11,6 +12,23 @@ const index = ref(0)
 const room = computed(() => props.project.rooms[index.value])
 const multi = computed(() => props.project.rooms.length > 1)
 const chips = ref(null)
+
+// Extra photos: thumbnail strip + full-screen viewer.
+const MAX_THUMBS = 4
+const extra = computed(() => props.project.extra)
+const lightbox = ref(null)
+const openPhoto = (i) => lightbox.value.open(i)
+
+// Photos-only project (no before/after pair): first photo is the cover, and
+// the thumbnail strip starts at the second photo.
+const cover = computed(() => (room.value ? null : extra.value[0]))
+const offset = computed(() => (cover.value ? 1 : 0))
+const thumbs = computed(() => extra.value.slice(offset.value, offset.value + MAX_THUMBS))
+const hiddenCount = computed(() => extra.value.length - offset.value - thumbs.value.length)
+const coverRatio = computed(() =>
+  cover.value ? Math.min(Math.max(cover.value.width / cover.value.height, 3 / 4), 16 / 9) : 1,
+)
+const SIZES = '(min-width: 1100px) 520px, (min-width: 700px) 46vw, 94vw'
 
 function go(i) {
   const n = props.project.rooms.length
@@ -61,7 +79,25 @@ function onClickCapture(e) {
       @pointercancel="start = null"
       @click.capture="onClickCapture"
     >
-      <Transition name="room" mode="out-in">
+      <button
+        v-if="cover"
+        type="button"
+        class="cover"
+        :style="{ aspectRatio: coverRatio }"
+        :aria-label="`${project.title}: view ${extra.length} photo${extra.length > 1 ? 's' : ''}`"
+        @click="openPhoto(0)"
+      >
+        <img
+          :src="cover.src"
+          :srcset="cover.srcset"
+          :sizes="SIZES"
+          :alt="cover.alt"
+          :loading="eager ? 'eager' : 'lazy'"
+          decoding="async"
+        />
+        <span class="cover__tag">{{ extra.length }} photo{{ extra.length > 1 ? 's' : '' }}</span>
+      </button>
+      <Transition v-else name="room" mode="out-in">
         <BeforeAfter
           :key="room.key"
           :before="room.before"
@@ -88,6 +124,25 @@ function onClickCapture(e) {
         {{ r.name }}
       </button>
     </div>
+
+    <div v-if="extra.length > (cover ? 1 : 0)" class="extras">
+      <p v-if="!cover" class="extras__label">More photos</p>
+      <ul class="extras__list">
+        <li v-for="(x, i) in thumbs" :key="x.id">
+          <button
+            type="button"
+            class="extras__thumb"
+            :aria-label="hiddenCount && i === thumbs.length - 1 ? `View all ${extra.length} photos` : `View ${x.alt}`"
+            @click="openPhoto(i + offset)"
+          >
+            <img :src="x.thumb" alt="" width="160" height="160" loading="lazy" decoding="async" />
+            <span v-if="hiddenCount && i === thumbs.length - 1" class="extras__more">+{{ hiddenCount }}</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <Lightbox v-if="extra.length" ref="lightbox" :images="extra" :title="project.title" />
 
     <figcaption>
       <h3>{{ project.title }}</h3>
@@ -163,6 +218,93 @@ function onClickCapture(e) {
 }
 .project__note b {
   color: var(--amber);
+}
+
+.cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #1a1513;
+  cursor: zoom-in;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+@media (hover: hover) {
+  .cover:hover img {
+    transform: scale(1.03);
+  }
+}
+.cover__tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.55);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.extras {
+  margin-top: 0.75rem;
+}
+.extras__label {
+  margin: 0 0 0.4rem !important;
+  font-size: 0.72rem !important;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.extras__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+.extras__thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--panel);
+  cursor: zoom-in;
+  transition: border-color 150ms;
+}
+.extras__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (hover: hover) {
+  .extras__thumb:hover {
+    border-color: var(--amber);
+  }
+}
+.extras__more {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 0.6);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
 }
 
 .room-enter-active,
