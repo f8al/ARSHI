@@ -1,5 +1,13 @@
 {
   "title": "Whole Home Remodel",
   "location": "Millard, Omaha",
-  "description": "New interior paint, New carpet in the bedrooms and basement, Carpeted the stairs and removed the old stair nosings,Repaired and refreshed all trim and quarter round throughout, New LVP flooring throughout."
+  "description": "New interior paint, New carpet in the bedrooms and basement, Carpeted the stairs and removed the old stair nosings,Repaired and refreshed all trim and quarter round throughout, New LVP flooring throughout.",
+  "captions": {
+    "01-living-room.jpg": "Living room with new LVP flooring and fresh interior paint",
+    "02-kitchen-view.jpg": "Looking from the kitchen into the refreshed living spaces",
+    "03-stairs.jpg": "Stairs re-carpeted with the old nosings removed, down to a new LVP landing",
+    "04-hallway-in-progress.jpg": "Hallway mid-project: walls patched and painted, floors protected",
+    "05-hallway-finished.jpg": "Finished hallway with new LVP, fresh paint and refreshed trim",
+    "06-bedroom-carpet.jpg": "Bedroom with new carpet and fresh paint"
+  }
 }
